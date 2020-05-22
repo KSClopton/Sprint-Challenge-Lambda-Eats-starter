@@ -6,12 +6,12 @@ import Home from './Components/Home'
 import PizzaBuild from './Components/PizzaBuild'
 import Order from './Components/Order'
 import axios from "axios";
-import formSchema from '../src/Validation/formSchema'
-import * as yup from 'yup'
+import formSchema from './Validation/formSchema'
+import * as yup from 'yup';
 
 // Adding initial states here
-const initialValues = {size: '', sauce: '', toppings: {pepperoni: false, sausage: false, pineapple: false, onion: false}, specialinstructions: ''}
-const initialErrors = {}
+const initialValues = {name: '', size: '', sauce: '', toppings: {pepperoni: false, sausage: false, pineapple: false, onion: false}, specialinstructions: ''}
+const initialErrors = {};
 const initialDisabled = true;
 
 
@@ -31,6 +31,7 @@ const App = () => {
       sauce: values.sauce.trim(),
       specialinstructions: values.specialinstructions.trim()
     }
+    postYourOrder(yourOrder)
   }
   const onInputChange = evt => {
     const name = evt.target.name
@@ -38,6 +39,7 @@ const App = () => {
 
     yup
       .reach(formSchema, name)
+      
       .validate(value)
       .then(valid => {
         setErrors({
@@ -51,11 +53,19 @@ const App = () => {
           [name]: err.errors[0]
         })
       })
+      setValues({
+        ...values,
+        [name]: value 
+      })
+      
     }
   const getYourOrder = () => {
     axios.get( 'https://reqres.in/api/users')
     .then(res => {
       setYourOrder(res.data)
+    })
+    .catch(err => {
+      debugger
     })
   }
 
@@ -72,7 +82,7 @@ const App = () => {
     })
   }
   useEffect(() => {
-    // 🔥 STEP 11- ADJUST THE STATUS OF `disabled` EVERY TIME `formValues` CHANGES
+
     formSchema.isValid(values)
       .then(valid => {
         setDisabled(!valid)
@@ -84,7 +94,7 @@ const App = () => {
     <div>
       <Nav />
       <Route exact path='/Home' component={Home} />
-      <Route exact path='/BuildYourOwn' component={<PizzaBuild onInputChange={onInputChange} values={values} disabled={disabled} onSubmit={onSubmit}/>}/>
+      <Route exact path='/BuildYourOwn' component={() => <PizzaBuild onInputChange={onInputChange} values={values} disabled={disabled} onSubmit={onSubmit} errors={errors}/>}/>
       <Route exact path='/Home' component={Order}/>
     </div>
     </Router>

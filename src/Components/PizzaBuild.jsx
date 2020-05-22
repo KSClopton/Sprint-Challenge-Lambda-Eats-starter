@@ -2,20 +2,25 @@ import React from 'react';
 import styled from 'styled-components'
 
 function PizzaBuild(props) {
-    const {onInputChange, values, disabled, onSubmit} = props;
+    const {onInputChange, values, disabled, onSubmit, errors} = props;
 
     return (
-        <form className='form container' onSubmit={onSubmit}>
+    <form className='form container' onSubmit={onSubmit}>
        <div>
            <StyleHeading>
                <h2>Build Your Own Pizza</h2>
                <img src='src/Images/BuildYourOwn.jpg'/>
             </StyleHeading>
             <h2>Build Your Own Pizza</h2>
+            <div>
+                <div>{errors.name}</div>
+            </div>
+            <label>Name
+                <input name='name' onChange={onInputChange} type='text'/>
+            </label>
            <label>Choice of Size
            <select 
-           onChange={onInputChange}
-        //    value={values.size}
+           value={values.size}
            name='size'
            >
                <option value=''>- Select an option -</option>
@@ -30,7 +35,7 @@ function PizzaBuild(props) {
             type='radio'
             name='sauce'
             value='Tomato'
-            onChange={onInputChange}
+      
             />
            </label>
            <label>BBQ
@@ -38,7 +43,7 @@ function PizzaBuild(props) {
             type='radio'
             name='sauce'
             value='BBQ'
-            onChange={onInputChange}
+          
             />
            </label>
            <label>Buffalo
@@ -46,46 +51,46 @@ function PizzaBuild(props) {
             type='radio'
             name='sauce'
             value='Buffalo'
-            onChange={onInputChange}
+        
             />
            </label>
            <label>Pepperoni
                 <input
                 type='checkbox'
                 name='pepperoni'
-                checked='{}'
-                onChange={onInputChange}
+                checked={values.toppings.pepperoni}
+            
                 />
            </label>
            <label>Sausage
                 <input
                 type='checkbox'
                 name='sausage'
-                checked='{}'
-                onChange={onInputChange}
+                checked={values.toppings.sausage}
+            
                 />
            </label>
            <label>Pineapple
                 <input
                 type='checkbox'
                 name='pineapple'
-                checked='{}'
-                onChange={onInputChange}
+                checked={values.toppings.pineapple}
+                onChange='onChange'
                 />
            </label>
            <label>Onion
                 <input
                 type='checkbox'
                 name='onion'
-                checked='{}'
-                onChange={onInputChange}
+                checked={values.toppings.onion}
+        
                 />
                 <label>Special Instructions
                     <input 
                     type='text'
                     name='specialinstructions'
-                    onChange={onInputChange}
-                    value='{}'/>
+            
+                    value={values.specialinstructions}/>
                 </label>
                 <button disabled={disabled}>Add to order</button>
            </label>
