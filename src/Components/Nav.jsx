@@ -12,8 +12,10 @@ function Nav(props) {
                <Link to='/Home'>
                <li>Home</li>
                </Link>
-               <li>About</li>
+               <Link to='/YourOrder'>
                <li>Your Order</li>
+               </Link>
+               <li>About</li>
            </ul>
         </StyleNav>
     )

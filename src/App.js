@@ -10,92 +10,127 @@ import formSchema from './Validation/formSchema'
 import * as yup from 'yup';
 
 // Adding initial states here
-const initialValues = {name: '', size: '', sauce: '', toppings: {pepperoni: false, sausage: false, pineapple: false, onion: false}, specialinstructions: ''}
-const initialErrors = {};
-const initialDisabled = true;
+const initialPizzaOrder = {
+  name: '', 
+  size: '',
+  sauce: '', 
+  specinst: '', 
+  toppings: {pepperoni: false, sausage: false, pineapple: false, onion: false,}}
 
+const initialErrors = {
+  name: '',
+  size: '',
+  sauce:'',
+};
+
+const initialDisabled = true;
+const initialOrder = {name: '', sauce: '', size: '', specinst: ''}
 
 const App = () => {
   // Adding states here
-  
-  const [errors, setErrors] = useState(initialErrors)
-  const [values, setValues] = useState(initialValues)
-  const [yourOrder, setYourOrder] = useState('')
+  const [formErrors, setFormErrors] = useState(initialErrors)
+  const [pizzaOrder, setPizzaOrder] = useState(initialPizzaOrder)
+  const [newOrder, setNewOrder] = useState(initialOrder)
   const [disabled, setDisabled] = useState(initialDisabled)
 
-  const onSubmit = evt => {
-    evt.preventDefault()
-    const yourOrder = {
-      name: values.name.trim(),
-      size: values.size.trim(),
-      sauce: values.sauce.trim(),
-      specialinstructions: values.specialinstructions.trim()
-    }
-    postYourOrder(yourOrder)
-  }
-  const onInputChange = evt => {
-    const name = evt.target.name
-    const value = evt.target.value
-
-    yup
-      .reach(formSchema, name)
-      
-      .validate(value)
-      .then(valid => {
-        setErrors({
-          ...errors,
-          [name]: ''
-        })
-      })
-      .catch(err => {
-        setErrors({
-          ...errors,
-          [name]: err.errors[0]
-        })
-      })
-      setValues({
-        ...values,
-        [name]: value 
-      })
-      
-    }
   const getYourOrder = () => {
     axios.get( 'https://reqres.in/api/users')
     .then(res => {
-      setYourOrder(res.data)
+      setNewOrder(res.data)
     })
     .catch(err => {
-      debugger
+      console.log('Could not get your order')
     })
   }
-
   const postYourOrder = yourOrder => {
-    axios.post(`https://reqres.in/api/users`, yourOrder)
+    axios.post('https://reqres.in/api/users', yourOrder)
     .then(res => {
-      setYourOrder(res.data, ...yourOrder)
+      setNewOrder(res.data)
+      
     })
     .catch(err => {
-      debugger
+      console.log('Could not post your order')
     })
     .finally(() => {
-      setValues(initialValues)
+      setPizzaOrder(initialPizzaOrder)
     })
   }
-  useEffect(() => {
+// Event handler
+const updatePizzaOrder = e => {
+  const name = e.target.name
+  const value = e.target.value
 
-    formSchema.isValid(values)
-      .then(valid => {
-        setDisabled(!valid)
+  yup
+    .reach(formSchema, name)
+    .validate(value)
+    .then(valid => {
+      setFormErrors({
+        ...formErrors,
+        [name]: ''
       })
-  }, [values])
- 
+    })
+    .catch(err => {
+      setFormErrors({
+        ...formErrors,
+        [name]: err.errors[0]
+      })
+    })
+    setPizzaOrder({
+      ...pizzaOrder,
+      [name]: value
+    })
+}
+
+const updateCheckBox = e => {
+
+    const { name } = e.target
+    const { checked } = e.target
+
+    setPizzaOrder({
+      ...pizzaOrder, 
+      toppings: {...pizzaOrder.toppings, 
+        [name]: checked, 
+      }
+    })
+  }
+
+  
+  const onSubmit = evt => {
+    evt.preventDefault()
+
+    const yourOrder = {
+      name: pizzaOrder.name.trim(),
+      size: pizzaOrder.size.trim(),
+      sauce: pizzaOrder.sauce.trim(),
+      specinst: pizzaOrder.specinst.trim()
+    }
+    postYourOrder(yourOrder)
+  }
+
+  useEffect(()=> {
+    getYourOrder()
+  },[])
+
+  useEffect(() => {
+    formSchema.isValid(pizzaOrder)
+    .then(valid => {
+      setDisabled(!valid)
+    })
+  }, [pizzaOrder])
+  
   return (
     <Router>
     <div>
       <Nav />
       <Route exact path='/Home' component={Home} />
-      <Route exact path='/BuildYourOwn' component={() => <PizzaBuild onInputChange={onInputChange} values={values} disabled={disabled} onSubmit={onSubmit} errors={errors}/>}/>
-      <Route exact path='/Home' component={Order}/>
+      <Route exact path='/BuildYourOwn'><PizzaBuild 
+      pizzaOrder={pizzaOrder}
+      updatePizzaOrder={updatePizzaOrder}
+      updateCheckBox={updateCheckBox} 
+      disabled={disabled} 
+      onSubmit={onSubmit} 
+      errors={formErrors} /></Route>
+      <Route exact path='/YourOrder'><Order order={newOrder}/></Route>
     </div>
     </Router>
   );

@@ -1,26 +1,33 @@
 import React from 'react';
 import styled from 'styled-components'
+import BuildYourOwn from '../Images/BuildYourOwn.jpg'
 
 function PizzaBuild(props) {
-    const {onInputChange, values, disabled, onSubmit, errors} = props;
+    const {pizzaOrder, updatePizzaOrder, updateCheckBox, disabled, errors, onSubmit} = props;
 
     return (
     <form className='form container' onSubmit={onSubmit}>
        <div>
            <StyleHeading>
                <h2>Build Your Own Pizza</h2>
-               <img src='src/Images/BuildYourOwn.jpg'/>
+               <img src={BuildYourOwn}/>
             </StyleHeading>
             <h2>Build Your Own Pizza</h2>
             <div>
                 <div>{errors.name}</div>
             </div>
             <label>Name
-                <input name='name' onChange={onInputChange} type='text'/>
+                <input 
+                value={pizzaOrder.name}
+                onChange={updatePizzaOrder}
+                name='name'
+                type='text'
+                />
             </label>
            <label>Choice of Size
            <select 
-           value={values.size}
+           value={pizzaOrder.size}
+           onChange={updatePizzaOrder}
            name='size'
            >
                <option value=''>- Select an option -</option>
@@ -29,13 +36,13 @@ function PizzaBuild(props) {
                <option value='Large'>Large</option>
            </select>
            </label>
-
+            {/* radio buttons */}
            <label>Tomato
             <input 
             type='radio'
             name='sauce'
             value='Tomato'
-      
+            onChange={updatePizzaOrder}
             />
            </label>
            <label>BBQ
@@ -43,7 +50,7 @@ function PizzaBuild(props) {
             type='radio'
             name='sauce'
             value='BBQ'
-          
+            onChange={updatePizzaOrder}
             />
            </label>
            <label>Buffalo
@@ -51,49 +58,51 @@ function PizzaBuild(props) {
             type='radio'
             name='sauce'
             value='Buffalo'
-        
+            onChange={updatePizzaOrder}
             />
            </label>
            <label>Pepperoni
-                <input
-                type='checkbox'
-                name='pepperoni'
-                checked={values.toppings.pepperoni}
-            
+            <input
+            type='checkbox'
+            name='pepperoni'
+            checked={pizzaOrder.toppings.pepperoni}
+            onChange={updateCheckBox}
                 />
            </label>
            <label>Sausage
-                <input
-                type='checkbox'
-                name='sausage'
-                checked={values.toppings.sausage}
-            
+            <input
+            type='checkbox'
+            name='sausage'
+            checked={pizzaOrder.toppings.sausage}
+            onChange={updateCheckBox}
                 />
            </label>
            <label>Pineapple
-                <input
-                type='checkbox'
-                name='pineapple'
-                checked={values.toppings.pineapple}
-                onChange='onChange'
+            <input
+            type='checkbox'
+            name='pineapple'
+            checked={pizzaOrder.toppings.pineapple}
+            onChange={updateCheckBox}
                 />
            </label>
            <label>Onion
-                <input
-                type='checkbox'
-                name='onion'
-                checked={values.toppings.onion}
-        
+            <input
+            type='checkbox'
+            name='onion'
+            checked={pizzaOrder.toppings.onion}
+            onChange={updateCheckBox}
                 />
-                <label>Special Instructions
-                    <input 
-                    type='text'
-                    name='specialinstructions'
-            
-                    value={values.specialinstructions}/>
-                </label>
-                <button disabled={disabled}>Add to order</button>
-           </label>
+            </label>
+            <label>Special Instructions
+            <input 
+            value={pizzaOrder.specinst}
+            onChange={updatePizzaOrder}
+            name='specinst'
+            type='text'
+                />
+            </label>
+
+            <button disabled={disabled}>Add to order</button>
        </div> 
        </form>
     )
