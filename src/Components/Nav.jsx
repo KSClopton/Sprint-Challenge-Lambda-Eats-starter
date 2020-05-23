@@ -9,10 +9,10 @@ function Nav(props) {
        <StyleNav>
            <h3>Papa Jan's</h3>
            <ul className='nav-items'>
-               <Link to='/Home'>
+               <Link className='link' to='/Home' style={{ textDecoration: 'none' }}>
                <li>Home</li>
                </Link>
-               <Link to='/YourOrder'>
+               <Link className='link' to='/YourOrder' style={{ textDecoration: 'none' }}>
                <li>Your Order</li>
                </Link>
                <li>About</li>
@@ -24,12 +24,17 @@ const StyleNav = styled.nav`
     background-color: whitesmoke;
     display: flex;
     justify-content: space-between;
+    color: black;
 
     .nav-items{
         display: flex;
+        color: black;
         justify-content: space-evenly;
         width: 40%;
         list-style:none;
+    }
+    .link {
+        color: black;
     }
 `
 export default Nav;

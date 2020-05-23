@@ -1,22 +1,26 @@
 import React from 'react';
 import styled from 'styled-components'
 import BuildYourOwn from '../Images/BuildYourOwn.jpg'
-import Veggies from '../Images/Veggies.jpg'
+
 
 function PizzaBuild(props) {
     const {pizzaOrder, updatePizzaOrder, updateCheckBox, disabled, errors, onSubmit} = props;
 
     return (
     <form className='form container' onSubmit={onSubmit}>
-       <div>
+       <MainContainer>
            <StyleHeading>
                <h2>Build Your Own Pizza</h2>
-               <img src={BuildYourOwn}/>
             </StyleHeading>
+            <MainPic>
+            <img src={BuildYourOwn}/>
+            </MainPic>
+            
             <h2>Build Your Own Pizza</h2>
             <div>
                 <div>{errors.name}</div>
             </div>
+            <h2>Enter your Name</h2>
             <label>Name
                 <input 
                 value={pizzaOrder.name}
@@ -25,6 +29,7 @@ function PizzaBuild(props) {
                 type='text'
                 />
             </label>
+            <h2>Choose a size</h2>
            <label>Choice of Size
            <select 
            value={pizzaOrder.size}
@@ -36,6 +41,7 @@ function PizzaBuild(props) {
                <option value='Medium'>Medium</option>
                <option value='Large'>Large</option>
            </select>
+           <h2>Choose one sauce</h2>
            </label>
             {/* radio buttons */}
            <label>Tomato
@@ -62,6 +68,7 @@ function PizzaBuild(props) {
             onChange={updatePizzaOrder}
             />
            </label>
+           <h2>Choose up to four toppings!</h2>
            <label>Pepperoni
             <input
             type='checkbox'
@@ -104,21 +111,31 @@ function PizzaBuild(props) {
             </label>
 
             <button disabled={disabled}>Add to order</button>
-       </div> 
+       </MainContainer> 
        </form>
     )
 }
+const MainContainer = styled.div`
+    h2{
+        background-color: lightgrey;
+    }
 
+
+`
 const StyleHeading = styled.div`
     border: solid 2px red;
     display: flex;
     justify-content: column;
     text-align: center;
 
-    img{
-        height:300px;
-        width: 100%;
-    }
-
+ 
 `
+const MainPic = styled.div`
+    
+
+    img{
+        max-width: 100%;
+    }
+`
+
 export default PizzaBuild;

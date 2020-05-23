@@ -8,6 +8,7 @@ import Order from './Components/Order'
 import axios from "axios";
 import formSchema from './Validation/formSchema'
 import * as yup from 'yup';
+import styled from 'styled-components';
 
 // Adding initial states here
 const initialPizzaOrder = {
@@ -120,7 +121,7 @@ const updateCheckBox = e => {
   
   return (
     <Router>
-    <div>
+    <MainDiv>
       <Nav />
       <Route exact path='/Home' component={Home} />
       <Route exact path='/BuildYourOwn'><PizzaBuild 
@@ -131,8 +132,12 @@ const updateCheckBox = e => {
       onSubmit={onSubmit} 
       errors={formErrors} /></Route>
       <Route exact path='/YourOrder'><Order order={newOrder}/></Route>
-    </div>
+    </MainDiv>
     </Router>
   );
 };
+const MainDiv = styled.div`
+ 
+
+`
 export default App;
