@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components'
 import BuildYourOwn from '../Images/BuildYourOwn.jpg'
+import BuildCard from '../Images/BuildCard.jpg'
 
 
 function PizzaBuild(props) {
@@ -20,6 +21,8 @@ function PizzaBuild(props) {
             <div>
                 <div>{errors.name}</div>
             </div>
+            <PizzaCard>
+            <img src={BuildCard}/>
             <h2>Enter your Name</h2>
             <label>Name
                 <input 
@@ -29,6 +32,9 @@ function PizzaBuild(props) {
                 type='text'
                 />
             </label>
+            </PizzaCard>
+            <PizzaCard>
+            <img src={BuildCard}/>
             <h2>Choose a size</h2>
            <label>Choice of Size
            <select 
@@ -41,8 +47,11 @@ function PizzaBuild(props) {
                <option value='Medium'>Medium</option>
                <option value='Large'>Large</option>
            </select>
-           <h2>Choose one sauce</h2>
            </label>
+           </PizzaCard>
+           <PizzaCard>
+           <img src={BuildCard}/>
+           <h2>Choose one sauce</h2>
             {/* radio buttons */}
            <label>Tomato
             <input 
@@ -68,6 +77,9 @@ function PizzaBuild(props) {
             onChange={updatePizzaOrder}
             />
            </label>
+           </PizzaCard>
+           <PizzaCard>
+           <img src={BuildCard}/>
            <h2>Choose up to four toppings!</h2>
            <label>Pepperoni
             <input
@@ -101,6 +113,7 @@ function PizzaBuild(props) {
             onChange={updateCheckBox}
                 />
             </label>
+            </PizzaCard>
             <label>Special Instructions
             <input 
             value={pizzaOrder.specinst}
@@ -119,7 +132,22 @@ const MainContainer = styled.div`
     h2{
         background-color: lightgrey;
     }
+`
+const PizzaCard = styled.div`
+    display: flex;
+    border-radius: 5px;
+    background-color: whitesmoke;
+    justify-content: flex-start;
+    width: 50%;
+    margin: 2%;
+    box-shadow: 0 0 15px 1px grey;
+    
 
+    img{
+        border-radius: 5px;
+        height: auto;
+        width: 50%;
+    }
 
 `
 const StyleHeading = styled.div`
