@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components'
 import BuildYourOwn from '../Images/BuildYourOwn.jpg'
+import Veggies from '../Images/Veggies.jpg'
 
 function PizzaBuild(props) {
     const {pizzaOrder, updatePizzaOrder, updateCheckBox, disabled, errors, onSubmit} = props;
